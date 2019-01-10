@@ -1,0 +1,12 @@
+{
+  "name": "simple",
+  "version": "0.1.0",
+  "description": "blah",
+  "main": "index.js",
+  "scripts": {
+    "make:me": "make --version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}

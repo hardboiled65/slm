@@ -1,0 +1,7 @@
+name: simple
+description: A simple library.
+version: 0.1.0
+license: MIT
+scripts:
+  configure: ./configure.py
+  make: make

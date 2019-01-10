@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+import yaml
+import subprocess
+
+if __name__ == '__main__':
+    library_yml = open('library.yml', 'r')
+    library = yaml.load(library_yml)
+    library_yml.close()
+
+    # slm make
+    args = library['scripts']['make'].split()
+    args.extend([
+        'LIBRARY_NAME=' + library['name'],
+        'LIBRARY_VERSION=' + library['version'],
+        'SONAME=' + 'lib' + library['name'] + '.so.' + library['version'].split('.')[0]
+    ])
+    result = subprocess.run(args)
