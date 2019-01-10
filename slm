@@ -1,17 +1,50 @@
 #!/usr/bin/env python3
+import sys
 import yaml
 import subprocess
 
-if __name__ == '__main__':
+SLM_VERSION='0.0.1'
+
+def load_library_yml():
     library_yml = open('library.yml', 'r')
     library = yaml.load(library_yml)
     library_yml.close()
+    return library
 
-    # slm make
+def slm_make():
+    library = load_library_yml()
+    print()
+    print('> {}@{} make'.format(library['name'], library['version']))
+    print('> {}'.format(library['scripts']['make']))
+    print()
+
     args = library['scripts']['make'].split()
+
+    # Append slm variables.
     args.extend([
         'LIBRARY_NAME=' + library['name'],
         'LIBRARY_VERSION=' + library['version'],
         'SONAME=' + 'lib' + library['name'] + '.so.' + library['version'].split('.')[0]
     ])
     result = subprocess.run(args)
+
+def slm_version():
+    print(SLM_VERSION)
+    exit(0)
+
+if __name__ == '__main__':
+    library_yml = open('library.yml', 'r')
+    library = yaml.load(library_yml)
+    library_yml.close()
+
+    # slm --version
+    if '--version' in sys.argv:
+        slm_version()
+
+    # slm make
+    if sys.argv[1] == 'make':
+        slm_make()
+        exit(0)
+
+    exit(1)
+
