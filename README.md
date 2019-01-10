@@ -46,5 +46,12 @@ A string exactly `version` field in `library.yml` file.
 ### SONAME
 lib{LIBRARY\_NAME}.so.{MAJOR VERSION}
 
-**MAJOR VERSION** is the first part of `LIBRARY_VERSION` which is separated with `.` character.
+*MAJOR VERSION* is the first part of `LIBRARY_VERSION` which is separated with `.` character.
+
+**e.g.** libmyawfullibrary.so.1
+
+SemVer
+------
+
+All slm libraries should follow [Semantic Versioning 2.0](https://semver.org).
 
