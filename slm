@@ -3,7 +3,7 @@ import os, sys
 import yaml
 import subprocess
 
-SLM_VERSION='0.0.2'
+SLM_VERSION='0.0.3'
 
 def load_library_yml():
     library_yml = open('library.yml', 'r')
