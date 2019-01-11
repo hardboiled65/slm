@@ -5,6 +5,22 @@ import subprocess
 
 SLM_VERSION='0.0.3'
 
+
+class semver:
+    @staticmethod
+    def valid(version_string):
+        if type(version_string) != str:
+            return None
+        try:
+            (major, minor, patch) = version_string.split('.')
+            major = int(major)
+            minor = int(minor)
+            patch = int(patch)
+        except ValueError:
+            return None
+        return '{}.{}.{}'.format(major, minor, patch)
+
+
 def load_library_yml():
     library_yml = open('library.yml', 'r')
     library = yaml.load(library_yml)
@@ -15,14 +31,23 @@ def slm_init():
     if os.path.isfile('library.yml'):
         print('library.yml file is already exists.', file=sys.stderr)
         exit(1)
+    # name
     recommended_name = os.path.basename(os.path.realpath('.'))
     name = input('library name: ({}) '.format(recommended_name))
     if name == '':
         name = recommended_name
+    # version
     version = input('version: (0.0.1) ')
     if version == '':
         version = '0.0.1'
+    while semver.valid(version) == None:
+        print('Not a valid SemVer.')
+        version = input('version: (0.0.1) ')
+        if version == '':
+            version = '0.0.1'
+    # description
     description = input('description: ')
+    # license
     license = input('license: (ISC) ')
     if license == '':
         license = 'ISC'
