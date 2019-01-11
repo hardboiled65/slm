@@ -1,15 +1,55 @@
 #!/usr/bin/env python3
-import sys
+import os, sys
 import yaml
 import subprocess
 
-SLM_VERSION='0.0.1'
+SLM_VERSION='0.0.2'
 
 def load_library_yml():
     library_yml = open('library.yml', 'r')
     library = yaml.load(library_yml)
     library_yml.close()
     return library
+
+def slm_init():
+    if os.path.isfile('library.yml'):
+        print('library.yml file is already exists.', file=sys.stderr)
+        exit(1)
+    recommended_name = os.path.basename(os.path.realpath('.'))
+    name = input('library name: ({}) '.format(recommended_name))
+    if name == '':
+        name = recommended_name
+    version = input('version: (0.0.1) ')
+    if version == '':
+        version = '0.0.1'
+    description = input('description: ')
+    license = input('license: (ISC) ')
+    if license == '':
+        license = 'ISC'
+
+    library_yml = yaml.dump({
+        'name': name,
+        'version': version,
+        'description': description,
+        'license': license,
+        'scripts': {
+            'configure': 'echo "Error: no configure specified" && exit 1',
+            'make': 'make',
+        },
+    }, default_flow_style=False)
+    print('About to write to {}/library.yml:'.format(os.path.realpath('.')))
+    print()
+    print(library_yml)
+    print()
+    ok = input('Is this ok? (yes) ')
+    if ok == '':
+        ok = 'yes'
+    if ok.lower() != 'yes':
+        print('Aborted')
+        exit(1)
+    with open('library.yml', 'w') as f:
+        f.write(library_yml)
+    exit(0)
 
 def slm_make():
     library = load_library_yml()
@@ -33,13 +73,13 @@ def slm_version():
     exit(0)
 
 if __name__ == '__main__':
-    library_yml = open('library.yml', 'r')
-    library = yaml.load(library_yml)
-    library_yml.close()
-
     # slm --version
     if '--version' in sys.argv:
         slm_version()
+
+    # slm init
+    if sys.argv[1] == 'init':
+        slm_init()
 
     # slm make
     if sys.argv[1] == 'make':
