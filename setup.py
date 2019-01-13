@@ -2,6 +2,9 @@ from setuptools import setup
 
 version = '0.0.3'
 
+with open('README.md', 'r') as f:
+    long_description = f.read()
+
 setup(
     name='slm',
     packages=[],
@@ -9,6 +12,8 @@ setup(
     version=version,
     license='MIT',
     description='Seshat library manager.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='hardboiled65',
     author_email='hardboiled65@gmail.com',
     url='https://github.com/hardboiled65/slm',
