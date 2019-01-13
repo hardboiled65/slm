@@ -3,7 +3,7 @@ import os, sys
 import yaml
 import subprocess
 
-SLM_VERSION='0.0.3'
+SLM_VERSION='0.0.4'
 
 
 class semver:
