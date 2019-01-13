@@ -103,6 +103,23 @@ def slm_init():
         f.write(library_yml)
     exit(0)
 
+def slm_configure():
+    library = load_library_yml()
+    print()
+    print('> {}@{} configure'.format(library['name'], library['version']))
+    print('> {}'.format(library['scripts']['configure']))
+    print()
+
+    args = library['scripts']['configure'].split()
+
+    # Append slm variables.
+    args.extend([
+        'LIBRARY_NAME=' + library['name'],
+        'LIBRARY_VERSION=' + library['version'],
+        'SONAME=' + 'lib' + library['name'] + '.so.' + library['version'].split('.')[0]
+    ])
+    result = subprocess.run(args)
+
 def slm_make():
     library = load_library_yml()
     print()
@@ -132,6 +149,11 @@ if __name__ == '__main__':
     # slm init
     if sys.argv[1] == 'init':
         slm_init()
+
+    # slm configure
+    if sys.argv[1] == 'configure':
+        slm_configure()
+        exit(0)
 
     # slm make
     if sys.argv[1] == 'make':
