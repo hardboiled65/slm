@@ -22,14 +22,18 @@ class semver:
     @staticmethod
     def _get_major(version_string):
         major = version_string.split('.')[0]
-        if not major.isnumeric() or major.startswith('0'):
+        if not major.isnumeric():
+            raise ValueError
+        if len(major) > 1 and major.startswith('0'):
             raise ValueError
         return int(major)
 
     @staticmethod
     def _get_minor(version_string):
         minor = version_string.split('.')[1]
-        if not minor.isnumeric() or minor.startswith('0'):
+        if not minor.isnumeric():
+            raise ValueError
+        if len(minor) > 1 and minor.startswith('0'):
             raise ValueError
         return int(minor)
 
@@ -37,7 +41,9 @@ class semver:
     def _get_patch(version_string):
         patch = version_string.split('.')[2]
         patch = patch.split('-')[0].split('+')[0]
-        if not patch.isnumeric() or patch.startswith('0'):
+        if not patch.isnumeric():
+            raise ValueError
+        if len(patch) > 1 and patch.startswith('0'):
             raise ValueError
         return int(patch)
 
